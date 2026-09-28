@@ -1,7 +1,9 @@
 package com.enigma.lcloanmanajementsystem.controller;
 
+import com.enigma.lcloanmanajementsystem.dto.request.LoginRequest;
 import com.enigma.lcloanmanajementsystem.dto.request.RegisterRequest;
 import com.enigma.lcloanmanajementsystem.dto.response.CommonResponse;
+import com.enigma.lcloanmanajementsystem.dto.response.LoginResponse;
 import com.enigma.lcloanmanajementsystem.dto.response.UserResponse;
 import com.enigma.lcloanmanajementsystem.service.AuthService;
 import com.enigma.lcloanmanajementsystem.utils.constants.ResponseMessage;
@@ -32,4 +34,14 @@ public class AuthController {
     }
 
 //    POST /api/v1/auth/login
+    @PostMapping("/login")
+    public  ResponseEntity<CommonResponse<LoginResponse>> login (@RequestBody LoginRequest request) throws Exception {
+        LoginResponse loginResponse = authService.loginUser(request);
+
+        return ResponseUtil.buildResponse(
+                HttpStatus.OK,
+                ResponseMessage.SUCCES_LOGIN,
+                loginResponse
+        );
+    }
 }

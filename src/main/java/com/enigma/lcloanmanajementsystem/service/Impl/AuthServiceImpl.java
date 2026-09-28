@@ -7,11 +7,16 @@ import com.enigma.lcloanmanajementsystem.dto.response.UserResponse;
 import com.enigma.lcloanmanajementsystem.entity.UserEntity;
 import com.enigma.lcloanmanajementsystem.mappers.UserMapper;
 import com.enigma.lcloanmanajementsystem.repository.UserRepository;
+import com.enigma.lcloanmanajementsystem.security.JwtTokenService;
 import com.enigma.lcloanmanajementsystem.service.AuthService;
 import com.enigma.lcloanmanajementsystem.utils.enums.UserRole;
 import com.enigma.lcloanmanajementsystem.utils.exceptions.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +26,8 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenService jwtToken;
 
     @Override
     public UserResponse registerUser(RegisterRequest request) {
@@ -39,6 +46,23 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponse loginUser(LoginRequest request) {
-        return null;
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(), request.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        // Generate jwt token
+        String jwt = jwtToken.generateJwtToken(auth);
+
+        // get role
+        String role = jwtToken.getRoleFromJwtToken(jwt);
+
+        // return response
+        return LoginResponse.builder()
+                .token(jwt)
+                .role(role)
+                .email(request.getEmail())
+                .build();
     }
 }

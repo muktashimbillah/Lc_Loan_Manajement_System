@@ -25,8 +25,8 @@ import org.springframework.security.web.header.writers.XXssProtectionHeaderWrite
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    JwtAccessDeniedHandler jwtAccessDeniedHandler;
-    JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
