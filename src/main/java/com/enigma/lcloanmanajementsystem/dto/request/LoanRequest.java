@@ -1,5 +1,6 @@
 package com.enigma.lcloanmanajementsystem.dto.request;
 
+import com.enigma.lcloanmanajementsystem.utils.validators.ValidEmployeStatus;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,5 +23,6 @@ public class LoanRequest {
     @NotBlank(message = "monthly expenditure cannot be empty")
     private Long monthlyExpenditure;
     @NotBlank(message = "employe satus cannot be empty")
+    @ValidEmployeStatus
     private String employeeStatus;
 }

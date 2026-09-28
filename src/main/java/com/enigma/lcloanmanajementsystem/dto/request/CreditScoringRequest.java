@@ -7,8 +7,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class CreditScoringRequest {
-    private String customerId;
+    private Long customerId;
     private Long monthlyIncome;
     private Long monthlyExpense;
     private Long requestedAmount;
