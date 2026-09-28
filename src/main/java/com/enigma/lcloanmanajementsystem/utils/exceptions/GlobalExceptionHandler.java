@@ -1,6 +1,7 @@
 package com.enigma.lcloanmanajementsystem.utils.exceptions;
 
 import com.enigma.lcloanmanajementsystem.dto.response.CommonResponse;
+import com.enigma.lcloanmanajementsystem.utils.constants.ResponseMessage;
 import com.enigma.lcloanmanajementsystem.utils.helpers.ResponseUtil;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -14,11 +15,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    // Costum ResourceNotFoundException
+
+    // Custom ResourceNotFoundException
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<CommonResponse<Object>> handleResourceNotFoundException(ResourceNotFoundException ex) {
         return ResponseUtil.buildResponse(
@@ -51,13 +52,13 @@ public class GlobalExceptionHandler {
 
         return ResponseUtil.buildResponse(
                 HttpStatus.BAD_REQUEST,
-                "Validation error on payload",
+                ResponseMessage.VALIDATION_ERROR,
                 null,
                 errors
         );
     }
 
-    // Costum BusinessException
+    // Custom BusinessException
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<CommonResponse<Object>> handleBusinessException(BusinessException ex) {
         return ResponseUtil.buildResponse(
@@ -68,12 +69,24 @@ public class GlobalExceptionHandler {
         );
     }
 
+    // NullPointerExceptio
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<CommonResponse<Object>> handleNullPointerException(NullPointerException ex) {
+        String errorMessage = ex.getMessage() != null ? ex.getMessage() : "Null reference encountered";
+        return ResponseUtil.buildResponse(
+                HttpStatus.NOT_FOUND,
+                ResponseMessage.NOT_FOUND,
+                null,
+                Map.of("error", errorMessage)
+        );
+    }
+
     // Security AuthenticationException
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<CommonResponse<Object>> handleAuthenticationException(AuthenticationException ex) {
         return ResponseUtil.buildResponse(
                 HttpStatus.UNAUTHORIZED,
-                "Authentication failed: " + ex.getMessage(),
+                ResponseMessage.UNAUTHORIZED,
                 null,
                 Map.of("error", ex.getMessage())
         );
@@ -84,17 +97,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<CommonResponse<Object>> handleAccessDeniedException(AccessDeniedException ex) {
         return ResponseUtil.buildResponse(
                 HttpStatus.FORBIDDEN,
-                "Access denied: You do not have permission to access this resource",
+                ResponseMessage.ACCESS_DENIED,
                 null,
                 Map.of("error", ex.getMessage())
         );
     }
 
-    // DataIntegrityViolationException
+    // DataIntegrityViolationException (Dilengkapi Null-Check pada root cause)
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public  ResponseEntity<CommonResponse<Object>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-        String dbErrorMessage = ex.getRootCause().getMessage();
-        String errorTitle = "Database error"; // Nilai default (fallback)
+    public ResponseEntity<CommonResponse<Object>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        Throwable rootCause = ex.getRootCause();
+        String dbErrorMessage = rootCause != null ? rootCause.getMessage() : null;
+        String errorTitle = ResponseMessage.DATABASE_ERROR;
 
         if (dbErrorMessage != null) {
             if (dbErrorMessage.contains("Detail:")) {
@@ -106,6 +120,7 @@ public class GlobalExceptionHandler {
                 errorTitle = dbErrorMessage.split("\n")[0].replace("ERROR:", "").trim();
             }
         }
+
         return ResponseUtil.buildResponse(
                 HttpStatus.CONFLICT,
                 errorTitle,
@@ -117,13 +132,17 @@ public class GlobalExceptionHandler {
     // Generic Exception
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CommonResponse<Object>> handleGenericException(Exception ex) {
+        String exceptionClass = ex.getClass().getSimpleName();
+        String detailError = ex.getMessage() != null ? ex.getMessage() : "Internal server error";
+
         return ResponseUtil.buildResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                "An unexpected error occurred : "+ex.getClass().getSimpleName(),
+                ResponseMessage.INTERNAL_SERVER_ERROR,
                 null,
-                Map.of("error", ex.getMessage() != null ? ex.getMessage() : "Internal server error")
+                Map.of(
+                        "class", exceptionClass,
+                        "error", detailError
+                )
         );
     }
-
-
 }

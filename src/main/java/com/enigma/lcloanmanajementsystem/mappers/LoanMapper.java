@@ -5,6 +5,9 @@ import com.enigma.lcloanmanajementsystem.entity.LoanEntity;
 import com.enigma.lcloanmanajementsystem.utils.enums.EmployeeStatus;
 import com.enigma.lcloanmanajementsystem.utils.enums.LoanStatus;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoanMapper {
     public static LoanResponse covertToResponse(LoanEntity entity){
             return LoanResponse.builder()
@@ -19,5 +22,13 @@ public class LoanMapper {
                     .creditRecommendation(entity.getCreditRecommendation())
                     .status(entity.getStatus())
                     .build();
+    }
+
+    public static List<LoanResponse> covertToResponseList(List<LoanEntity> entities){
+        List<LoanResponse> loanResponses = new ArrayList<>();
+        for (LoanEntity entity : entities) {
+            loanResponses.add(covertToResponse(entity));
+        }
+        return loanResponses;
     }
 }

@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface CustomerLoanService {
     LoanResponse create(UserEntity user,  LoanRequest loanRequest);
-    LoanResponse findById(Integer id);
-    List<LoanResponse> findAll();
+    LoanResponse findById(UserEntity user, Long id);
+    List<LoanResponse> findAll(UserEntity user);
 }

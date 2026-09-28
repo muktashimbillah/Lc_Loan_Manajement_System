@@ -13,6 +13,7 @@ import com.enigma.lcloanmanajementsystem.service.CustomerLoanService;
 import com.enigma.lcloanmanajementsystem.utils.enums.EmployeeStatus;
 import com.enigma.lcloanmanajementsystem.utils.enums.LoanStatus;
 import com.enigma.lcloanmanajementsystem.utils.exceptions.BusinessException;
+import com.enigma.lcloanmanajementsystem.utils.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,6 @@ public class LoanServiceImpl implements CustomerLoanService {
                 .creditRecommendation(creditScoringResponse.getRiskLevel())
                 .status(LoanStatus.PENDING)
                 .build();
-//        throw new BusinessException(newLoan.toString());
 
         LoanEntity loan =  loanRepository.save(newLoan);
 
@@ -58,12 +58,14 @@ public class LoanServiceImpl implements CustomerLoanService {
     }
 
     @Override
-    public LoanResponse findById(Integer id) {
-        return null;
+    public LoanResponse findById(UserEntity user, Long id) {
+        LoanEntity loan = loanRepository.findByIdAndUserId(id, user.getId());
+        return LoanMapper.covertToResponse(loan);
     }
 
     @Override
-    public List<LoanResponse> findAll() {
-        return List.of();
+    public List<LoanResponse> findAll(UserEntity user) {
+        List<LoanEntity> loanEntities = loanRepository.findByUserId(user.getId());
+        return LoanMapper.covertToResponseList(loanEntities);
     }
 }
