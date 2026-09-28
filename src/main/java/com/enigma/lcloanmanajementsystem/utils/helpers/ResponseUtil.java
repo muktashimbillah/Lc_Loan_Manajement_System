@@ -27,13 +27,4 @@ public class ResponseUtil {
         return ResponseEntity.status(httpStatus).body(response);
     }
 
-    public static <T> ResponseEntity<CommonResponse<T>> buildResponse(HttpStatus httpStatus,T data, Map<String, String> errors) {
-        CommonResponse<T> response = CommonResponse.<T>builder()
-                .status(httpStatus.value())
-                .data(data)
-                .errors(errors)
-                .build();
-
-        return ResponseEntity.status(httpStatus).body(response);
-    }
 }

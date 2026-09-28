@@ -31,9 +31,5 @@ public class AuthController {
         );
     }
 
-    @GetMapping("hello")
-    public ResponseEntity<CommonResponse<String>> helo(){
-        return ResponseUtil.buildResponse(HttpStatus.OK, ResponseMessage.SUCCES_GET_DATA, "Hello world!");
-    }
 //    POST /api/v1/auth/login
 }

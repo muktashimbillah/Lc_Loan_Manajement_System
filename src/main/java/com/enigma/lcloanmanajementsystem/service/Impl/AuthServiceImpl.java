@@ -9,6 +9,7 @@ import com.enigma.lcloanmanajementsystem.mappers.UserMapper;
 import com.enigma.lcloanmanajementsystem.repository.UserRepository;
 import com.enigma.lcloanmanajementsystem.service.AuthService;
 import com.enigma.lcloanmanajementsystem.utils.enums.UserRole;
+import com.enigma.lcloanmanajementsystem.utils.exceptions.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
