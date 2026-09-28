@@ -6,20 +6,18 @@ import com.enigma.lcloanmanajementsystem.dto.response.UserResponse;
 import com.enigma.lcloanmanajementsystem.service.AuthService;
 import com.enigma.lcloanmanajementsystem.utils.constants.ResponseMessage;
 import com.enigma.lcloanmanajementsystem.utils.helpers.ResponseUtil;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@Tag(name="Auth", description = "Auth endpoint")
 public class AuthController {
-    private AuthService authService;
+    private final AuthService authService;
 
 //    POST /api/v1/auth/register
     @PostMapping("/register")
@@ -31,6 +29,11 @@ public class AuthController {
                 ResponseMessage.SUCCES_CREATE_DATA,
                 userResponse
         );
+    }
+
+    @GetMapping("hello")
+    public ResponseEntity<CommonResponse<String>> helo(){
+        return ResponseUtil.buildResponse(HttpStatus.OK, ResponseMessage.SUCCES_GET_DATA, "Hello world!");
     }
 //    POST /api/v1/auth/login
 }

@@ -9,16 +9,17 @@ import com.enigma.lcloanmanajementsystem.mappers.UserMapper;
 import com.enigma.lcloanmanajementsystem.repository.UserRepository;
 import com.enigma.lcloanmanajementsystem.service.AuthService;
 import com.enigma.lcloanmanajementsystem.utils.enums.UserRole;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
+@RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public UserResponse registerUser(RegisterRequest request) {
@@ -26,6 +27,7 @@ public class AuthServiceImpl implements AuthService {
         UserEntity newUser = UserEntity.builder()
                 .name(request.getName())
                 .email(request.getEmail())
+                .phoneNumber(request.getPhoneNumber())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(role)
                 .build();
