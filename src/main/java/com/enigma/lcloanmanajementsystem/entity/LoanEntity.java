@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "loan")
 @Setter
 @Getter
 @AllArgsConstructor

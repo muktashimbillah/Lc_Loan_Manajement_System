@@ -2,10 +2,7 @@ package com.enigma.lcloanmanajementsystem.entity;
 
 import com.enigma.lcloanmanajementsystem.utils.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,6 +12,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
