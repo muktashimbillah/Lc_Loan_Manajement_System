@@ -10,6 +10,7 @@ import com.enigma.lcloanmanajementsystem.utils.helpers.ResponseUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/loans")
 @AllArgsConstructor
+@PreAuthorize("hasRole('CUSTOMER')")
 public class CustomerController {
     private final CustomerLoanService loanService;
 
