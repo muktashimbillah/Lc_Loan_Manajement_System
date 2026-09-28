@@ -12,8 +12,6 @@ import com.enigma.lcloanmanajementsystem.repository.LoanRepository;
 import com.enigma.lcloanmanajementsystem.service.CustomerLoanService;
 import com.enigma.lcloanmanajementsystem.utils.enums.EmployeeStatus;
 import com.enigma.lcloanmanajementsystem.utils.enums.LoanStatus;
-import com.enigma.lcloanmanajementsystem.utils.exceptions.BusinessException;
-import com.enigma.lcloanmanajementsystem.utils.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +21,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class LoanServiceImpl implements CustomerLoanService {
+public class CustomerLoanServiceImpl implements CustomerLoanService {
     private final LoanRepository loanRepository;
     private final LmsClinet lmsClinet;
 

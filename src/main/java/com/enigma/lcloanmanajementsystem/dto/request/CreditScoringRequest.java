@@ -2,8 +2,7 @@ package com.enigma.lcloanmanajementsystem.dto.request;
 
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

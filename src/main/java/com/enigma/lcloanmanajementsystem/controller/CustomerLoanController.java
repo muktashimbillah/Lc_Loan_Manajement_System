@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/api/v1/loans")
 @AllArgsConstructor
 @PreAuthorize("hasRole('CUSTOMER')")
-public class CustomerController {
+public class CustomerLoanController {
     private final CustomerLoanService loanService;
 
 //    POST /api/v1/loans
@@ -37,7 +37,7 @@ public class CustomerController {
 
 //    GET  /api/v1/loans/me
     @GetMapping("/me")
-    public ResponseEntity<CommonResponse<List<LoanResponse>>> getMe(@AuthenticationPrincipal UserEntity userEntity) {
+    public ResponseEntity<CommonResponse<List<LoanResponse>>> getMyLoan(@AuthenticationPrincipal UserEntity userEntity) {
         List<LoanResponse> loanResponses = loanService.findAll(userEntity);
 
         return ResponseUtil.buildResponse(
@@ -49,7 +49,7 @@ public class CustomerController {
 
 //    GET  /api/v1/loans/{id}
     @GetMapping("/{id}")
-    public  ResponseEntity<CommonResponse<LoanResponse>> getLoan(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long id) {
+    public  ResponseEntity<CommonResponse<LoanResponse>> getLoanDetail(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long id) {
         LoanResponse loanResponse = loanService.findById(userEntity, id);
 
         return ResponseUtil.buildResponse(
