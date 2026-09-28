@@ -5,7 +5,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +15,8 @@ public class OpenApiConfig {
     public OpenAPI enigmaCademyOpenApi() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("EnigmaCademy")
-                        .description("liveCode ")
+                        .title("Loan Management System API")
+                        .description("API untuk autentikasi dan pengelolaan pengajuan pinjaman.")
                         .version("v1.0.0")
                         .contact(new Contact()
                                 .name("Enigmacamp")
@@ -32,7 +31,6 @@ public class OpenApiConfig {
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
                                         .bearerFormat("JWT")
-                                        .description("tambahkan JWT . contoh : xxxjkshakdjhakjsh")))
-                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
+                                        .description("Masukkan access token JWT.")));
     }
 }
