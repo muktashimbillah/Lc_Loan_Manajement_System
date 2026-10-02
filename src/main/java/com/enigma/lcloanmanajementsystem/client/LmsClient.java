@@ -13,7 +13,7 @@ import org.springframework.web.client.RestClientException;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class LmsClinet {
+public class LmsClient {
     private final RestClient creditScoringRestClient;
 
     public CreditScoringResponse getCreditScore(CreditScoringRequest request) {

@@ -1,6 +1,6 @@
 package com.enigma.lcloanmanajementsystem.service.Impl;
 
-import com.enigma.lcloanmanajementsystem.client.LmsClinet;
+import com.enigma.lcloanmanajementsystem.client.LmsClient;
 import com.enigma.lcloanmanajementsystem.dto.request.CreditScoringRequest;
 import com.enigma.lcloanmanajementsystem.dto.request.LoanRequest;
 import com.enigma.lcloanmanajementsystem.dto.response.CreditScoringResponse;
@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 public class CustomerLoanServiceImpl implements CustomerLoanService {
     private final LoanRepository loanRepository;
-    private final LmsClinet lmsClinet;
+    private final LmsClient lmsClinet;
 
     @Override
     public LoanResponse create(UserEntity user, LoanRequest loanRequest) {
@@ -45,6 +45,7 @@ public class CustomerLoanServiceImpl implements CustomerLoanService {
                 .monthlyIncome(loanRequest.getMonthlyIncome())
                 .monthlyExpenditure(loanRequest.getMonthlyExpenditure())
                 .employeeStatus(EmployeeStatus.valueOf(loanRequest.getEmployeeStatus()))
+
                 .creditScore(creditScoringResponse.getScore())
                 .creditRecommendation(creditScoringResponse.getRiskLevel())
                 .status(LoanStatus.PENDING)
