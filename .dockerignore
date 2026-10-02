@@ -1,0 +1,17 @@
+# Mengabaikan folder editor
+.idea
+.vscode
+
+# Mengabaikan file konfigurasi rahasia
+*.pem
+id_rsa
+
+# Mengabaikan folder Git dan dokumentasi
+.git
+.gitignore
+README.md
+
+# Mengabaikan log dan file temporary
+*.log
+.DS_Store
+thumbs.db
